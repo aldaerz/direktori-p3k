@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mimisan - Direktori P3K</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f9;
+            margin: 0;
+        }
+
+        .header {
+            background: #d62828;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+        }
+
+        .back {
+            color: #d62828;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        h2 {
+            color: #d62828;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>🤧 Pertolongan Pertama</h1>
+        <p>Mimisan</p>
+    </div>
+
+    <div class="container">
+
+        <a class="back" href="index.php">← Kembali ke Direktori</a>
+
+        <h2>Yang dapat dilakukan</h2>
+
+        <ol>
+            <li>Duduk tegak dan condongkan kepala sedikit ke depan.</li>
+            <li>Jepit bagian lunak hidung dengan ibu jari dan telunjuk selama sekitar 10–15 menit.</li>
+            <li>Bernapas melalui mulut selama hidung dijepit.</li>
+            <li>Setelah berhenti, hindari meniup atau mengorek hidung untuk sementara.</li>
+        </ol>
+
+        <div class="warning">
+            <strong>⚠️ Perhatian:</strong><br>
+            Jika perdarahan tidak berhenti setelah pertolongan awal,
+            segera minta bantuan orang dewasa atau tenaga kesehatan.
+        </div>
+
+    </div>
+
+</body>
+</html>

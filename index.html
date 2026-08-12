@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direktori Pertolongan Pertama</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: #d62828;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .search {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-sizing: border-box;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            margin-top: 0;
+        }
+
+        .card a {
+            color: #d62828;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>🩺 Direktori Pertolongan Pertama</h1>
+        <p>Panduan pertolongan pertama yang mudah dipahami</p>
+    </div>
+
+    <div class="container">
+
+        <input
+            type="text"
+            class="search"
+            placeholder="🔍 Cari kondisi, misalnya: luka, mimisan..."
+        >
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>🩹 Luka Ringan</h3>
+                <p>Panduan dasar menangani luka ringan.</p>
+                <a href="luka.html">Lihat panduan →</a>
+            </div>
+
+            <div class="card">
+                <h3>🔥 Luka Bakar</h3>
+                <p>Informasi penanganan awal luka bakar.</p>
+                <a href="lukabakar.html">Lihat panduan →</a>
+            </div>
+
+            <div class="card">
+                <h3>🤧 Mimisan</h3>
+                <p>Langkah pertolongan pertama saat mimisan.</p>
+                <a href="mimisan.html">Lihat panduan →</a>
+            </div>
+
+            <div class="card">
+                <h3>😵 Pingsan</h3>
+                <p>Informasi tindakan awal ketika seseorang pingsan.</p>
+                <a href="pingsan.html">Lihat panduan →</a>
+            </div>
+
+            <div class="card">
+                <h3>🦵 Keseleo</h3>
+                <p>Panduan dasar untuk cedera keseleo.</p>
+                <a href="keseleo.html">Lihat panduan →</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
