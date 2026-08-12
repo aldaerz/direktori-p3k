@@ -11,192 +11,395 @@
 
     <style>
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --red: #dc2626;
+            --red-dark: #991b1b;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --soft: #fee2e2;
+        }
+
+        body.dark {
+            --bg: #020617;
+            --card: #0f172a;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --border: #1e293b;
+            --soft: #450a0a;
         }
 
         body {
             font-family: Arial, sans-serif;
-            background: #f8fafc;
-            color: #0f172a;
-            transition: 0.3s;
+            background: var(--bg);
+            color: var(--text);
+            transition: background .3s, color .3s;
         }
 
-        body.dark {
-            background: #0f172a;
-            color: #f8fafc;
-        }
+        /* HEADER */
 
         header {
-            background: linear-gradient(135deg, #dc2626, #991b1b);
+            background:
+                radial-gradient(circle at top right, rgba(255,255,255,.18), transparent 35%),
+                linear-gradient(135deg, var(--red), var(--red-dark));
+
             color: white;
-            padding: 45px 20px;
-            text-align: center;
+            padding: 28px 20px 55px;
+            border-radius: 0 0 35px 35px;
+        }
+
+        .header-inner {
+            max-width: 1050px;
+            margin: auto;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,.15);
+            border: 1px solid rgba(255,255,255,.25);
+            padding: 7px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            margin-bottom: 18px;
         }
 
         header h1 {
-            font-size: 38px;
+            font-size: clamp(30px, 6vw, 48px);
             margin-bottom: 10px;
         }
 
         header p {
-            opacity: 0.9;
+            opacity: .9;
+            max-width: 600px;
+            line-height: 1.6;
         }
+
+        /* CONTAINER */
 
         .container {
-            max-width: 1000px;
-            margin: auto;
-            padding: 25px 20px 50px;
-        }
-
-        .top-bar {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-
-        .search-box {
-            flex: 1;
-        }
-
-        #searchInput {
-            width: 100%;
-            padding: 15px 18px;
-            border-radius: 14px;
-            border: 1px solid #cbd5e1;
-            font-size: 15px;
-            outline: none;
-        }
-
-        .dark #searchInput {
-            background: #1e293b;
-            color: white;
-            border-color: #475569;
-        }
-
-        .mode-btn {
-            border: none;
-            border-radius: 14px;
-            padding: 0 18px;
-            cursor: pointer;
-            background: #0f172a;
-            color: white;
-            font-size: 20px;
-        }
-
-        .dark .mode-btn {
-            background: white;
-            color: #0f172a;
-        }
-
-        .section-title {
-            margin: 20px 0 15px;
-            font-size: 22px;
-        }
-
-        .recent-box {
-            display: none;
-            background: white;
-            border-radius: 16px;
-            padding: 18px;
-            margin-bottom: 25px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .dark .recent-box {
-            background: #1e293b;
-            border-color: #334155;
-        }
-
-        .recent-box.show {
-            display: block;
-        }
-
-        .recent-link {
-            color: #dc2626;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 18px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 20px;
-            padding: 22px;
-            border: 1px solid #e2e8f0;
-            transition: 0.25s;
+            max-width: 1050px;
+            margin: -30px auto 0;
+            padding: 0 20px 50px;
             position: relative;
         }
 
-        .dark .card {
-            background: #1e293b;
-            border-color: #334155;
+        /* SEARCH */
+
+        .search-area {
+            display: flex;
+            gap: 10px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 10px;
+            border-radius: 18px;
+            box-shadow: 0 15px 35px rgba(0,0,0,.08);
+        }
+
+        .search-area input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: var(--text);
+            padding: 12px;
+            font-size: 15px;
+        }
+
+        .icon-btn {
+            width: 45px;
+            height: 45px;
+            border: none;
+            border-radius: 13px;
+            cursor: pointer;
+            background: var(--soft);
+            font-size: 20px;
+        }
+
+        /* QUICK ACTION */
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 18px 0;
+        }
+
+        .quick {
+            border: none;
+            border-radius: 16px;
+            padding: 17px;
+            cursor: pointer;
+            text-align: left;
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            transition: .25s;
+        }
+
+        .quick:hover {
+            transform: translateY(-3px);
+        }
+
+        .quick strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .quick span {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .emergency {
+            background: var(--red);
+            color: white;
+            border: none;
+        }
+
+        .emergency span {
+            color: #fee2e2;
+        }
+
+        /* STATS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 20px 0 30px;
+        }
+
+        .stat {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        .stat-number {
+            font-size: 25px;
+            font-weight: bold;
+            color: var(--red);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 5px;
+        }
+
+        /* SECTION */
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 25px 0 15px;
+        }
+
+        .section-head h2 {
+            font-size: 22px;
+        }
+
+        .section-head span {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* CARDS */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 20px;
+            position: relative;
+            transition: .3s;
+            overflow: hidden;
+        }
+
+        .card::after {
+            content: "";
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            right: -35px;
+            bottom: -35px;
+            background: var(--soft);
+            border-radius: 50%;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            transform: translateY(-6px);
+            box-shadow: 0 18px 35px rgba(0,0,0,.09);
         }
 
-        .emoji {
+        .card-icon {
             font-size: 35px;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
 
         .card h3 {
-            margin-bottom: 8px;
+            margin-bottom: 7px;
         }
 
         .card p {
-            color: #64748b;
-            font-size: 14px;
+            color: var(--muted);
+            font-size: 13px;
             line-height: 1.5;
+            min-height: 40px;
             margin-bottom: 18px;
-        }
-
-        .dark .card p {
-            color: #cbd5e1;
         }
 
         .guide-btn {
             display: inline-block;
-            background: #dc2626;
+            background: var(--red);
             color: white;
             padding: 11px 15px;
-            border-radius: 10px;
+            border-radius: 11px;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
+            position: relative;
+            z-index: 2;
         }
 
         .favorite {
             position: absolute;
-            top: 18px;
-            right: 18px;
+            right: 15px;
+            top: 15px;
             border: none;
             background: transparent;
             font-size: 23px;
             cursor: pointer;
+            z-index: 3;
         }
+
+        /* RECENT */
+
+        .recent {
+            display: none;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 17px;
+            margin: 18px 0;
+        }
+
+        .recent.show {
+            display: block;
+        }
+
+        .recent a {
+            color: var(--red);
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        /* EMPTY */
 
         .empty {
             display: none;
             text-align: center;
-            padding: 40px;
-            color: #64748b;
+            padding: 45px 10px;
+            color: var(--muted);
+        }
+
+        /* MODAL */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.65);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-box {
+            width: 100%;
+            max-width: 450px;
+            background: var(--card);
+            color: var(--text);
+            border-radius: 25px;
+            padding: 25px;
+            animation: pop .25s ease;
+        }
+
+        @keyframes pop {
+            from {
+                transform: scale(.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-box h2 {
+            margin-bottom: 12px;
+        }
+
+        .modal-box p {
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .modal-close {
+            margin-top: 20px;
+            width: 100%;
+            border: none;
+            padding: 13px;
+            border-radius: 12px;
+            background: var(--red);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
         }
 
         footer {
             text-align: center;
-            margin-top: 45px;
-            color: #64748b;
-            font-size: 13px;
+            margin-top: 50px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        @media(max-width:600px) {
+
+            header {
+                padding-top: 25px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
         }
     </style>
 </head>
@@ -204,327 +407,634 @@
 <body>
 
 <header>
-    <h1>🩹 Direktori P3K</h1>
-    <p>Panduan pertolongan pertama yang praktis dan mudah diakses.</p>
+
+    <div class="header-inner">
+
+        <div class="badge">
+            🩺 P3K DIGITAL
+        </div>
+
+        <h1>Direktori P3K</h1>
+
+        <p>
+            Panduan pertolongan pertama yang praktis,
+            sederhana, dan mudah diakses kapan saja.
+        </p>
+
+    </div>
+
 </header>
+
 
 <div class="container">
 
-    <div class="top-bar">
-        <div class="search-box">
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="🔎 Cari panduan P3K..."
-            >
-        </div>
+    <!-- SEARCH -->
 
-        <button class="mode-btn" onclick="toggleDarkMode()" id="modeBtn">
+    <div class="search-area">
+
+        <span style="font-size:20px;padding:12px;">
+            🔎
+        </span>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Cari panduan... contoh: luka"
+        >
+
+        <button
+            class="icon-btn"
+            onclick="toggleDark()"
+            id="themeButton"
+        >
             🌙
         </button>
+
     </div>
 
-    <div class="recent-box" id="recentBox">
-        <strong>🕐 Terakhir dibuka</strong>
-        <br><br>
-        <a id="recentLink" class="recent-link" href="#"></a>
+
+    <!-- QUICK ACTION -->
+
+    <div class="quick-actions">
+
+        <button
+            class="quick emergency"
+            onclick="openEmergency()"
+        >
+
+            <strong>
+                🚨 Mode Darurat
+            </strong>
+
+            <span>
+                Tampilkan langkah bantuan cepat
+            </span>
+
+        </button>
+
+
+        <button
+            class="quick"
+            onclick="showFavorites()"
+        >
+
+            <strong>
+                ⭐ Favorit Saya
+            </strong>
+
+            <span>
+                Tampilkan panduan yang disimpan
+            </span>
+
+        </button>
+
     </div>
 
-    <h2 class="section-title">📚 Pilih Panduan</h2>
 
-    <div class="cards" id="cards">
+    <!-- STATS -->
 
-        <div class="card" data-name="luka ringan luka">
-            <button class="favorite" onclick="toggleFavorite('luka')">☆</button>
+    <div class="stats">
 
-            <div class="emoji">🩹</div>
+        <div class="stat">
 
-            <h3>Luka Ringan</h3>
+            <div
+                class="stat-number"
+                id="totalGuide"
+            >
+                5
+            </div>
+
+            <div class="stat-label">
+                Total Panduan
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div
+                class="stat-number"
+                id="favoriteCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Panduan Favorit
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div
+                class="stat-number"
+                id="visitCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Panduan Dibuka
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RECENT -->
+
+    <div
+        class="recent"
+        id="recentBox"
+    >
+
+        <strong>
+            🕐 Terakhir dibuka
+        </strong>
+
+        <p style="margin-top:8px;">
+
+            <a
+                href="#"
+                id="recentLink"
+            >
+            </a>
+
+        </p>
+
+    </div>
+
+
+    <!-- DIRECTORY -->
+
+    <div class="section-head">
+
+        <h2>
+            📚 Panduan P3K
+        </h2>
+
+        <span id="resultCount">
+            5 panduan
+        </span>
+
+    </div>
+
+
+    <div
+        class="cards"
+        id="cards"
+    >
+
+
+        <!-- LUKA -->
+
+        <div
+            class="card"
+            data-name="luka ringan luka gores"
+        >
+
+            <button
+                class="favorite"
+                onclick="favorite('luka', this)"
+            >
+                ☆
+            </button>
+
+            <div class="card-icon">
+                🩹
+            </div>
+
+            <h3>
+                Luka Ringan
+            </h3>
 
             <p>
-                Panduan dasar untuk menangani luka ringan
-                dengan langkah pertolongan pertama.
+                Panduan dasar untuk menangani
+                luka ringan.
             </p>
 
             <a
                 href="luka.html"
                 class="guide-btn"
-                onclick="saveRecent('Luka Ringan', 'luka.html')"
+                onclick="opened('Luka Ringan','luka.html')"
             >
                 Lihat Panduan →
             </a>
+
         </div>
 
 
-        <div class="card" data-name="luka bakar bakar">
-            <button class="favorite" onclick="toggleFavorite('lukabakar')">☆</button>
+        <!-- LUKA BAKAR -->
 
-            <div class="emoji">🔥</div>
+        <div
+            class="card"
+            data-name="luka bakar panas terbakar"
+        >
 
-            <h3>Luka Bakar</h3>
+            <button
+                class="favorite"
+                onclick="favorite('lukabakar', this)"
+            >
+                ☆
+            </button>
+
+            <div class="card-icon">
+                🔥
+            </div>
+
+            <h3>
+                Luka Bakar
+            </h3>
 
             <p>
-                Panduan awal untuk menangani luka bakar
-                secara aman.
+                Panduan pertolongan pertama
+                pada luka bakar.
             </p>
 
             <a
                 href="lukabakar.html"
                 class="guide-btn"
-                onclick="saveRecent('Luka Bakar', 'lukabakar.html')"
+                onclick="opened('Luka Bakar','lukabakar.html')"
             >
                 Lihat Panduan →
             </a>
+
         </div>
 
 
-        <div class="card" data-name="mimisan hidung darah">
-            <button class="favorite" onclick="toggleFavorite('mimisan')">☆</button>
+        <!-- MIMISAN -->
 
-            <div class="emoji">🤧</div>
+        <div
+            class="card"
+            data-name="mimisan hidung darah"
+        >
 
-            <h3>Mimisan</h3>
+            <button
+                class="favorite"
+                onclick="favorite('mimisan', this)"
+            >
+                ☆
+            </button>
+
+            <div class="card-icon">
+                🤧
+            </div>
+
+            <h3>
+                Mimisan
+            </h3>
 
             <p>
-                Langkah pertolongan pertama ketika mengalami
-                mimisan.
+                Langkah awal untuk membantu
+                saat mengalami mimisan.
             </p>
 
             <a
                 href="mimisan.html"
                 class="guide-btn"
-                onclick="saveRecent('Mimisan', 'mimisan.html')"
+                onclick="opened('Mimisan','mimisan.html')"
             >
                 Lihat Panduan →
             </a>
+
         </div>
 
 
-        <div class="card" data-name="pingsan tidak sadar">
-            <button class="favorite" onclick="toggleFavorite('pingsan')">☆</button>
+        <!-- PINGSAN -->
 
-            <div class="emoji">😵</div>
+        <div
+            class="card"
+            data-name="pingsan tidak sadar jatuh"
+        >
 
-            <h3>Pingsan</h3>
+            <button
+                class="favorite"
+                onclick="favorite('pingsan', this)"
+            >
+                ☆
+            </button>
+
+            <div class="card-icon">
+                😵
+            </div>
+
+            <h3>
+                Pingsan
+            </h3>
 
             <p>
-                Panduan tindakan awal saat seseorang
-                mengalami pingsan.
+                Panduan tindakan awal ketika
+                seseorang mengalami pingsan.
             </p>
 
             <a
                 href="pingsan.html"
                 class="guide-btn"
-                onclick="saveRecent('Pingsan', 'pingsan.html')"
+                onclick="opened('Pingsan','pingsan.html')"
             >
                 Lihat Panduan →
             </a>
+
         </div>
 
 
-        <div class="card" data-name="keseleo cedera kaki tangan">
-            <button class="favorite" onclick="toggleFavorite('keseleo')">☆</button>
+        <!-- KESELEO -->
 
-            <div class="emoji">🦵</div>
+        <div
+            class="card"
+            data-name="keseleo cedera kaki tangan"
+        >
 
-            <h3>Keseleo</h3>
+            <button
+                class="favorite"
+                onclick="favorite('keseleo', this)"
+            >
+                ☆
+            </button>
+
+            <div class="card-icon">
+                🦵
+            </div>
+
+            <h3>
+                Keseleo
+            </h3>
 
             <p>
-                Panduan pertolongan pertama untuk cedera
-                akibat keseleo.
+                Panduan pertolongan pertama
+                untuk cedera keseleo.
             </p>
 
             <a
                 href="keseleo.html"
                 class="guide-btn"
-                onclick="saveRecent('Keseleo', 'keseleo.html')"
+                onclick="opened('Keseleo','keseleo.html')"
             >
                 Lihat Panduan →
             </a>
+
         </div>
 
+
     </div>
 
-    <div class="empty" id="empty">
-        😭 Panduan yang lu cari nggak ketemu.
+
+    <div
+        class="empty"
+        id="empty"
+    >
+
+        😭<br><br>
+
+        Panduan yang lu cari belum ditemukan.
+
     </div>
+
 
     <footer>
-        Direktori P3K • Project TJKT
+
+        🩺 Direktori P3K<br>
+        Project TJKT • SMKN 1 Losarang
+
     </footer>
+
+</div>
+
+
+<!-- EMERGENCY MODAL -->
+
+<div
+    class="modal"
+    id="emergencyModal"
+>
+
+    <div class="modal-box">
+
+        <h2>
+            🚨 Mode Darurat
+        </h2>
+
+        <p>
+
+            Jika seseorang mengalami kondisi serius,
+            tetap tenang dan segera minta bantuan
+            orang di sekitar atau orang dewasa.
+
+            <br><br>
+
+            • Pastikan lingkungan aman.<br>
+            • Jangan melakukan tindakan yang tidak
+            dipahami atau berisiko memperburuk keadaan.<br>
+            • Cari bantuan medis bila diperlukan.
+
+        </p>
+
+        <button
+            class="modal-close"
+            onclick="closeEmergency()"
+        >
+            Mengerti
+        </button>
+
+    </div>
 
 </div>
 
 
 <script>
 
-    // =========================
-    // SEARCH
-    // =========================
+    /* ==========================
+       SEARCH
+    ========================== */
 
-    const searchInput = document.getElementById("searchInput");
-    const cards = document.querySelectorAll(".card");
-    const empty = document.getElementById("empty");
+    const search =
+        document.getElementById("searchInput");
 
-    searchInput.addEventListener("input", function () {
+    const cards =
+        document.querySelectorAll(".card");
 
-        const keyword = this.value.toLowerCase().trim();
+    const empty =
+        document.getElementById("empty");
+
+    const resultCount =
+        document.getElementById("resultCount");
+
+
+    search.addEventListener("input", function() {
+
+        const keyword =
+            this.value.toLowerCase().trim();
+
         let found = 0;
+
 
         cards.forEach(card => {
 
-            const name = card.dataset.name;
+            const name =
+                card.dataset.name.toLowerCase();
+
 
             if (name.includes(keyword)) {
+
                 card.style.display = "";
+
                 found++;
+
             } else {
+
                 card.style.display = "none";
+
             }
 
         });
 
+
+        resultCount.textContent =
+            found + " panduan";
+
+
         empty.style.display =
-            found === 0 ? "block" : "none";
+            found === 0
+                ? "block"
+                : "none";
 
     });
 
 
-    // =========================
-    // DARK MODE
-    // =========================
+    /* ==========================
+       DARK MODE
+    ========================== */
 
-    function toggleDarkMode() {
+    function toggleDark() {
 
         document.body.classList.toggle("dark");
 
-        const dark =
+        const isDark =
             document.body.classList.contains("dark");
 
-        localStorage.setItem("darkMode", dark);
+        localStorage.setItem(
+            "darkMode",
+            isDark
+        );
 
-        document.getElementById("modeBtn").textContent =
-            dark ? "☀️" : "🌙";
+        document.getElementById(
+            "themeButton"
+        ).textContent =
+            isDark ? "☀️" : "🌙";
+
     }
 
 
-    // Ambil mode sebelumnya
-
-    if (localStorage.getItem("darkMode") === "true") {
+    if (
+        localStorage.getItem("darkMode")
+        === "true"
+    ) {
 
         document.body.classList.add("dark");
 
-        document.getElementById("modeBtn").textContent = "☀️";
+        document.getElementById(
+            "themeButton"
+        ).textContent = "☀️";
+
     }
 
 
-    // =========================
-    // FAVORIT
-    // =========================
+    /* ==========================
+       FAVORIT
+    ========================== */
 
-    function toggleFavorite(name) {
+    function getFavorites() {
+
+        return JSON.parse(
+            localStorage.getItem("favorites")
+        ) || [];
+
+    }
+
+
+    function favorite(name, button) {
 
         let favorites =
-            JSON.parse(localStorage.getItem("favorites")) || [];
+            getFavorites();
+
 
         if (favorites.includes(name)) {
 
             favorites =
-                favorites.filter(item => item !== name);
+                favorites.filter(
+                    item => item !== name
+                );
+
+            button.textContent = "☆";
 
         } else {
 
             favorites.push(name);
 
+            button.textContent = "★";
+
         }
+
 
         localStorage.setItem(
             "favorites",
             JSON.stringify(favorites)
         );
 
-        updateFavorites();
+
+        updateStats();
 
     }
 
 
-    function updateFavorites() {
+    function updateFavoriteIcons() {
 
         const favorites =
-            JSON.parse(localStorage.getItem("favorites")) || [];
+            getFavorites();
 
-        document.querySelectorAll(".favorite")
+
+        document
+            .querySelectorAll(".favorite")
             .forEach(button => {
 
-                const onclick =
+                const functionText =
                     button.getAttribute("onclick");
 
+                const match =
+                    functionText.match(
+                        /'([^']+)'/
+                    );
+
+
+                if (!match) return;
+
+
                 const name =
-                    onclick.match(/'([^']+)'/)[1];
+                    match[1];
+
 
                 button.textContent =
                     favorites.includes(name)
-                    ? "★"
-                    : "☆";
+                        ? "★"
+                        : "☆";
 
             });
 
     }
 
 
-    updateFavorites();
+    /* ==========================
+       SHOW FAVORITES
+    ========================== */
+
+    function showFavorites() {
+
+        const favorites =
+            getFavorites();
 
 
-    // =========================
-    // TERAKHIR DIBUKA
-    // =========================
-
-    function saveRecent(name, url) {
-
-        localStorage.setItem(
-            "recentName",
-            name
-        );
-
-        localStorage.setItem(
-            "recentUrl",
-            url
-        );
-
-    }
-
-
-    function loadRecent() {
-
-        const name =
-            localStorage.getItem("recentName");
-
-        const url =
-            localStorage.getItem("recentUrl");
-
-        if (name && url) {
-
-            const box =
-                document.getElementById("recentBox");
-
-            const link =
-                document.getElementById("recentLink");
-
-            link.textContent =
-                "Buka lagi: " + name;
-
-            link.href = url;
-
-            box.classList.add("show");
-
-        }
-
-    }
-
-
-    loadRecent();
-
-</script>
-
-</body>
-</html>
+        if (favorites.length === 0) {
