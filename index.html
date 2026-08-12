@@ -4,121 +4,527 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#d62828">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#dc2626">
 
-    <title>Direktori Pertolongan Pertama</title>
+    <title>Direktori P3K</title>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f7f9;
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-        .header {
-            background: #d62828;
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            transition: 0.3s;
+        }
+
+        body.dark {
+            background: #0f172a;
+            color: #f8fafc;
+        }
+
+        header {
+            background: linear-gradient(135deg, #dc2626, #991b1b);
             color: white;
-            padding: 30px;
+            padding: 45px 20px;
             text-align: center;
         }
 
-        .header h1 {
-            margin: 0;
+        header h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.9;
         }
 
         .container {
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 20px;
+            max-width: 1000px;
+            margin: auto;
+            padding: 25px 20px 50px;
         }
 
-        .search {
-            width: 100%;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-sizing: border-box;
+        .top-bar {
+            display: flex;
+            gap: 10px;
             margin-bottom: 25px;
-            font-size: 16px;
+        }
+
+        .search-box {
+            flex: 1;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 15px 18px;
+            border-radius: 14px;
+            border: 1px solid #cbd5e1;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .dark #searchInput {
+            background: #1e293b;
+            color: white;
+            border-color: #475569;
+        }
+
+        .mode-btn {
+            border: none;
+            border-radius: 14px;
+            padding: 0 18px;
+            cursor: pointer;
+            background: #0f172a;
+            color: white;
+            font-size: 20px;
+        }
+
+        .dark .mode-btn {
+            background: white;
+            color: #0f172a;
+        }
+
+        .section-title {
+            margin: 20px 0 15px;
+            font-size: 22px;
+        }
+
+        .recent-box {
+            display: none;
+            background: white;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .dark .recent-box {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        .recent-box.show {
+            display: block;
+        }
+
+        .recent-link {
+            color: #dc2626;
+            font-weight: bold;
+            text-decoration: none;
         }
 
         .cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 18px;
         }
 
         .card {
             background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-radius: 20px;
+            padding: 22px;
+            border: 1px solid #e2e8f0;
+            transition: 0.25s;
+            position: relative;
+        }
+
+        .dark .card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
+
+        .emoji {
+            font-size: 35px;
+            margin-bottom: 12px;
         }
 
         .card h3 {
-            margin-top: 0;
+            margin-bottom: 8px;
         }
 
-        .card a {
-            color: #d62828;
+        .card p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+
+        .dark .card p {
+            color: #cbd5e1;
+        }
+
+        .guide-btn {
+            display: inline-block;
+            background: #dc2626;
+            color: white;
+            padding: 11px 15px;
+            border-radius: 10px;
             text-decoration: none;
+            font-size: 14px;
             font-weight: bold;
+        }
+
+        .favorite {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            border: none;
+            background: transparent;
+            font-size: 23px;
+            cursor: pointer;
+        }
+
+        .empty {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 45px;
+            color: #64748b;
+            font-size: 13px;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="header">
-        <h1>🩺 Direktori Pertolongan Pertama</h1>
-        <p>Panduan pertolongan pertama yang mudah dipahami</p>
+<header>
+    <h1>🩹 Direktori P3K</h1>
+    <p>Panduan pertolongan pertama yang praktis dan mudah diakses.</p>
+</header>
+
+<div class="container">
+
+    <div class="top-bar">
+        <div class="search-box">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="🔎 Cari panduan P3K..."
+            >
+        </div>
+
+        <button class="mode-btn" onclick="toggleDarkMode()" id="modeBtn">
+            🌙
+        </button>
     </div>
 
-    <div class="container">
+    <div class="recent-box" id="recentBox">
+        <strong>🕐 Terakhir dibuka</strong>
+        <br><br>
+        <a id="recentLink" class="recent-link" href="#"></a>
+    </div>
 
-        <input
-            type="text"
-            class="search"
-            placeholder="🔍 Cari kondisi, misalnya: luka, mimisan..."
-        >
+    <h2 class="section-title">📚 Pilih Panduan</h2>
 
-        <div class="cards">
+    <div class="cards" id="cards">
 
-            <div class="card">
-                <h3>🩹 Luka Ringan</h3>
-                <p>Panduan dasar menangani luka ringan.</p>
-                <a href="luka.html">Lihat panduan →</a>
-            </div>
+        <div class="card" data-name="luka ringan luka">
+            <button class="favorite" onclick="toggleFavorite('luka')">☆</button>
 
-            <div class="card">
-                <h3>🔥 Luka Bakar</h3>
-                <p>Informasi penanganan awal luka bakar.</p>
-                <a href="lukabakar.html">Lihat panduan →</a>
-            </div>
+            <div class="emoji">🩹</div>
 
-            <div class="card">
-                <h3>🤧 Mimisan</h3>
-                <p>Langkah pertolongan pertama saat mimisan.</p>
-                <a href="mimisan.html">Lihat panduan →</a>
-            </div>
+            <h3>Luka Ringan</h3>
 
-            <div class="card">
-                <h3>😵 Pingsan</h3>
-                <p>Informasi tindakan awal ketika seseorang pingsan.</p>
-                <a href="pingsan.html">Lihat panduan →</a>
-            </div>
+            <p>
+                Panduan dasar untuk menangani luka ringan
+                dengan langkah pertolongan pertama.
+            </p>
 
-            <div class="card">
-                <h3>🦵 Keseleo</h3>
-                <p>Panduan dasar untuk cedera keseleo.</p>
-                <a href="keseleo.html">Lihat panduan →</a>
-            </div>
+            <a
+                href="luka.html"
+                class="guide-btn"
+                onclick="saveRecent('Luka Ringan', 'luka.html')"
+            >
+                Lihat Panduan →
+            </a>
+        </div>
 
+
+        <div class="card" data-name="luka bakar bakar">
+            <button class="favorite" onclick="toggleFavorite('lukabakar')">☆</button>
+
+            <div class="emoji">🔥</div>
+
+            <h3>Luka Bakar</h3>
+
+            <p>
+                Panduan awal untuk menangani luka bakar
+                secara aman.
+            </p>
+
+            <a
+                href="lukabakar.html"
+                class="guide-btn"
+                onclick="saveRecent('Luka Bakar', 'lukabakar.html')"
+            >
+                Lihat Panduan →
+            </a>
+        </div>
+
+
+        <div class="card" data-name="mimisan hidung darah">
+            <button class="favorite" onclick="toggleFavorite('mimisan')">☆</button>
+
+            <div class="emoji">🤧</div>
+
+            <h3>Mimisan</h3>
+
+            <p>
+                Langkah pertolongan pertama ketika mengalami
+                mimisan.
+            </p>
+
+            <a
+                href="mimisan.html"
+                class="guide-btn"
+                onclick="saveRecent('Mimisan', 'mimisan.html')"
+            >
+                Lihat Panduan →
+            </a>
+        </div>
+
+
+        <div class="card" data-name="pingsan tidak sadar">
+            <button class="favorite" onclick="toggleFavorite('pingsan')">☆</button>
+
+            <div class="emoji">😵</div>
+
+            <h3>Pingsan</h3>
+
+            <p>
+                Panduan tindakan awal saat seseorang
+                mengalami pingsan.
+            </p>
+
+            <a
+                href="pingsan.html"
+                class="guide-btn"
+                onclick="saveRecent('Pingsan', 'pingsan.html')"
+            >
+                Lihat Panduan →
+            </a>
+        </div>
+
+
+        <div class="card" data-name="keseleo cedera kaki tangan">
+            <button class="favorite" onclick="toggleFavorite('keseleo')">☆</button>
+
+            <div class="emoji">🦵</div>
+
+            <h3>Keseleo</h3>
+
+            <p>
+                Panduan pertolongan pertama untuk cedera
+                akibat keseleo.
+            </p>
+
+            <a
+                href="keseleo.html"
+                class="guide-btn"
+                onclick="saveRecent('Keseleo', 'keseleo.html')"
+            >
+                Lihat Panduan →
+            </a>
         </div>
 
     </div>
+
+    <div class="empty" id="empty">
+        😭 Panduan yang lu cari nggak ketemu.
+    </div>
+
+    <footer>
+        Direktori P3K • Project TJKT
+    </footer>
+
+</div>
+
+
+<script>
+
+    // =========================
+    // SEARCH
+    // =========================
+
+    const searchInput = document.getElementById("searchInput");
+    const cards = document.querySelectorAll(".card");
+    const empty = document.getElementById("empty");
+
+    searchInput.addEventListener("input", function () {
+
+        const keyword = this.value.toLowerCase().trim();
+        let found = 0;
+
+        cards.forEach(card => {
+
+            const name = card.dataset.name;
+
+            if (name.includes(keyword)) {
+                card.style.display = "";
+                found++;
+            } else {
+                card.style.display = "none";
+            }
+
+        });
+
+        empty.style.display =
+            found === 0 ? "block" : "none";
+
+    });
+
+
+    // =========================
+    // DARK MODE
+    // =========================
+
+    function toggleDarkMode() {
+
+        document.body.classList.toggle("dark");
+
+        const dark =
+            document.body.classList.contains("dark");
+
+        localStorage.setItem("darkMode", dark);
+
+        document.getElementById("modeBtn").textContent =
+            dark ? "☀️" : "🌙";
+    }
+
+
+    // Ambil mode sebelumnya
+
+    if (localStorage.getItem("darkMode") === "true") {
+
+        document.body.classList.add("dark");
+
+        document.getElementById("modeBtn").textContent = "☀️";
+    }
+
+
+    // =========================
+    // FAVORIT
+    // =========================
+
+    function toggleFavorite(name) {
+
+        let favorites =
+            JSON.parse(localStorage.getItem("favorites")) || [];
+
+        if (favorites.includes(name)) {
+
+            favorites =
+                favorites.filter(item => item !== name);
+
+        } else {
+
+            favorites.push(name);
+
+        }
+
+        localStorage.setItem(
+            "favorites",
+            JSON.stringify(favorites)
+        );
+
+        updateFavorites();
+
+    }
+
+
+    function updateFavorites() {
+
+        const favorites =
+            JSON.parse(localStorage.getItem("favorites")) || [];
+
+        document.querySelectorAll(".favorite")
+            .forEach(button => {
+
+                const onclick =
+                    button.getAttribute("onclick");
+
+                const name =
+                    onclick.match(/'([^']+)'/)[1];
+
+                button.textContent =
+                    favorites.includes(name)
+                    ? "★"
+                    : "☆";
+
+            });
+
+    }
+
+
+    updateFavorites();
+
+
+    // =========================
+    // TERAKHIR DIBUKA
+    // =========================
+
+    function saveRecent(name, url) {
+
+        localStorage.setItem(
+            "recentName",
+            name
+        );
+
+        localStorage.setItem(
+            "recentUrl",
+            url
+        );
+
+    }
+
+
+    function loadRecent() {
+
+        const name =
+            localStorage.getItem("recentName");
+
+        const url =
+            localStorage.getItem("recentUrl");
+
+        if (name && url) {
+
+            const box =
+                document.getElementById("recentBox");
+
+            const link =
+                document.getElementById("recentLink");
+
+            link.textContent =
+                "Buka lagi: " + name;
+
+            link.href = url;
+
+            box.classList.add("show");
+
+        }
+
+    }
+
+
+    loadRecent();
+
+</script>
 
 </body>
 </html>
