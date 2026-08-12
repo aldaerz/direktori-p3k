@@ -1,0 +1,9 @@
+{
+  "name": "Direktori P3K",
+  "short_name": "P3K",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#d62828",
+  "description": "Direktori informasi pertolongan pertama"
+}
