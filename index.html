@@ -1,811 +1,669 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#dc2626">
-
-    <title>Direktori P3K</title>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --red: #dc2626;
-            --red-dark: #991b1b;
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --text: #0f172a;
-            --muted: #64748b;
-            --border: #e2e8f0;
-            --soft: #fee2e2;
-        }
-
-        body.dark {
-            --bg: #020617;
-            --card: #0f172a;
-            --text: #f8fafc;
-            --muted: #94a3b8;
-            --border: #1e293b;
-            --soft: #450a0a;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            transition: background .3s, color .3s;
-        }
-
-        /* HEADER */
-
-        header {
-            background:
-                radial-gradient(circle at top right, rgba(255,255,255,.18), transparent 35%),
-                linear-gradient(135deg, var(--red), var(--red-dark));
-
-            color: white;
-            padding: 28px 20px 55px;
-            border-radius: 0 0 35px 35px;
-        }
-
-        .header-inner {
-            max-width: 1050px;
-            margin: auto;
-        }
-
-        .badge {
-            display: inline-block;
-            background: rgba(255,255,255,.15);
-            border: 1px solid rgba(255,255,255,.25);
-            padding: 7px 12px;
-            border-radius: 30px;
-            font-size: 12px;
-            margin-bottom: 18px;
-        }
-
-        header h1 {
-            font-size: clamp(30px, 6vw, 48px);
-            margin-bottom: 10px;
-        }
-
-        header p {
-            opacity: .9;
-            max-width: 600px;
-            line-height: 1.6;
-        }
-
-        /* CONTAINER */
-
-        .container {
-            max-width: 1050px;
-            margin: -30px auto 0;
-            padding: 0 20px 50px;
-            position: relative;
-        }
-
-        /* SEARCH */
-
-        .search-area {
-            display: flex;
-            gap: 10px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            padding: 10px;
-            border-radius: 18px;
-            box-shadow: 0 15px 35px rgba(0,0,0,.08);
-        }
-
-        .search-area input {
-            flex: 1;
-            border: none;
-            outline: none;
-            background: transparent;
-            color: var(--text);
-            padding: 12px;
-            font-size: 15px;
-        }
-
-        .icon-btn {
-            width: 45px;
-            height: 45px;
-            border: none;
-            border-radius: 13px;
-            cursor: pointer;
-            background: var(--soft);
-            font-size: 20px;
-        }
-
-        /* QUICK ACTION */
-
-        .quick-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin: 18px 0;
-        }
-
-        .quick {
-            border: none;
-            border-radius: 16px;
-            padding: 17px;
-            cursor: pointer;
-            text-align: left;
-            background: var(--card);
-            border: 1px solid var(--border);
-            color: var(--text);
-            transition: .25s;
-        }
-
-        .quick:hover {
-            transform: translateY(-3px);
-        }
-
-        .quick strong {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .quick span {
-            font-size: 12px;
-            color: var(--muted);
-        }
-
-        .emergency {
-            background: var(--red);
-            color: white;
-            border: none;
-        }
-
-        .emergency span {
-            color: #fee2e2;
-        }
-
-        /* STATS */
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin: 20px 0 30px;
-        }
-
-        .stat {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 18px;
-        }
-
-        .stat-number {
-            font-size: 25px;
-            font-weight: bold;
-            color: var(--red);
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: var(--muted);
-            margin-top: 5px;
-        }
-
-        /* SECTION */
-
-        .section-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 25px 0 15px;
-        }
-
-        .section-head h2 {
-            font-size: 22px;
-        }
-
-        .section-head span {
-            color: var(--muted);
-            font-size: 12px;
-        }
-
-        /* CARDS */
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 16px;
-        }
-
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 22px;
-            padding: 20px;
-            position: relative;
-            transition: .3s;
-            overflow: hidden;
-        }
-
-        .card::after {
-            content: "";
-            position: absolute;
-            width: 90px;
-            height: 90px;
-            right: -35px;
-            bottom: -35px;
-            background: var(--soft);
-            border-radius: 50%;
-        }
-
-        .card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 18px 35px rgba(0,0,0,.09);
-        }
-
-        .card-icon {
-            font-size: 35px;
-            margin-bottom: 15px;
-        }
-
-        .card h3 {
-            margin-bottom: 7px;
-        }
-
-        .card p {
-            color: var(--muted);
-            font-size: 13px;
-            line-height: 1.5;
-            min-height: 40px;
-            margin-bottom: 18px;
-        }
-
-        .guide-btn {
-            display: inline-block;
-            background: var(--red);
-            color: white;
-            padding: 11px 15px;
-            border-radius: 11px;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: bold;
-            position: relative;
-            z-index: 2;
-        }
-
-        .favorite {
-            position: absolute;
-            right: 15px;
-            top: 15px;
-            border: none;
-            background: transparent;
-            font-size: 23px;
-            cursor: pointer;
-            z-index: 3;
-        }
-
-        /* RECENT */
-
-        .recent {
-            display: none;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 17px;
-            margin: 18px 0;
-        }
-
-        .recent.show {
-            display: block;
-        }
-
-        .recent a {
-            color: var(--red);
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        /* EMPTY */
-
-        .empty {
-            display: none;
-            text-align: center;
-            padding: 45px 10px;
-            color: var(--muted);
-        }
-
-        /* MODAL */
-
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,.65);
-            z-index: 100;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .modal.show {
-            display: flex;
-        }
-
-        .modal-box {
-            width: 100%;
-            max-width: 450px;
-            background: var(--card);
-            color: var(--text);
-            border-radius: 25px;
-            padding: 25px;
-            animation: pop .25s ease;
-        }
-
-        @keyframes pop {
-            from {
-                transform: scale(.9);
-                opacity: 0;
-            }
-
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .modal-box h2 {
-            margin-bottom: 12px;
-        }
-
-        .modal-box p {
-            color: var(--muted);
-            line-height: 1.6;
-            font-size: 14px;
-        }
-
-        .modal-close {
-            margin-top: 20px;
-            width: 100%;
-            border: none;
-            padding: 13px;
-            border-radius: 12px;
-            background: var(--red);
-            color: white;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            color: var(--muted);
-            font-size: 12px;
-        }
-
-        @media(max-width:600px) {
-
-            header {
-                padding-top: 25px;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
-            }
-
-            .quick-actions {
-                grid-template-columns: 1fr;
-            }
-
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#dc2626">
+
+<title>Direktori P3K</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --red:#dc2626;
+    --darkred:#991b1b;
+    --bg:#f5f7fb;
+    --card:#ffffff;
+    --text:#111827;
+    --muted:#64748b;
+    --border:#e2e8f0;
+    --soft:#fee2e2;
+}
+
+body.dark{
+    --bg:#020617;
+    --card:#0f172a;
+    --text:#f8fafc;
+    --muted:#94a3b8;
+    --border:#1e293b;
+    --soft:#450a0a;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    transition:.3s;
+}
+
+header{
+    background:linear-gradient(135deg,var(--red),var(--darkred));
+    color:white;
+    padding:40px 20px 65px;
+    border-radius:0 0 35px 35px;
+}
+
+.header{
+    max-width:1050px;
+    margin:auto;
+}
+
+.badge{
+    display:inline-block;
+    padding:7px 13px;
+    border-radius:30px;
+    background:rgba(255,255,255,.16);
+    margin-bottom:18px;
+    font-size:12px;
+}
+
+header h1{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+header p{
+    opacity:.9;
+    line-height:1.6;
+}
+
+.container{
+    max-width:1050px;
+    margin:-32px auto 0;
+    padding:0 20px 50px;
+}
+
+/* SEARCH */
+
+.search{
+    display:flex;
+    gap:8px;
+    background:var(--card);
+    padding:9px;
+    border:1px solid var(--border);
+    border-radius:18px;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+}
+
+.search input{
+    flex:1;
+    border:none;
+    outline:none;
+    background:transparent;
+    color:var(--text);
+    font-size:15px;
+    padding:13px;
+}
+
+.theme{
+    width:48px;
+    border:none;
+    border-radius:13px;
+    background:var(--soft);
+    cursor:pointer;
+    font-size:20px;
+}
+
+/* QUICK */
+
+.quick{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin:18px 0;
+}
+
+.quick button{
+    border:none;
+    border-radius:17px;
+    padding:18px;
+    text-align:left;
+    cursor:pointer;
+    background:var(--card);
+    color:var(--text);
+    border:1px solid var(--border);
+    transition:.2s;
+}
+
+.quick button:hover{
+    transform:translateY(-3px);
+}
+
+.quick .danger{
+    background:var(--red);
+    color:white;
+}
+
+.quick strong{
+    display:block;
+    margin-bottom:5px;
+}
+
+.quick span{
+    font-size:12px;
+    color:var(--muted);
+}
+
+.quick .danger span{
+    color:#fee2e2;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin:20px 0;
+}
+
+.stat{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:17px;
+    padding:18px;
+}
+
+.number{
+    color:var(--red);
+    font-size:25px;
+    font-weight:bold;
+}
+
+.label{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:5px;
+}
+
+/* RECENT */
+
+.recent{
+    display:none;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:17px;
+    padding:18px;
+    margin:18px 0;
+}
+
+.recent.show{
+    display:block;
+}
+
+.recent a{
+    color:var(--red);
+    text-decoration:none;
+    font-weight:bold;
+}
+
+/* TITLE */
+
+.title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:30px 0 15px;
+}
+
+.title span{
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* CARDS */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:17px;
+}
+
+.card{
+    position:relative;
+    overflow:hidden;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:21px;
+    transition:.25s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 15px 30px rgba(0,0,0,.08);
+}
+
+.icon{
+    font-size:36px;
+    margin-bottom:14px;
+}
+
+.card h3{
+    margin-bottom:8px;
+}
+
+.card p{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.5;
+    margin-bottom:18px;
+}
+
+.guide{
+    display:inline-block;
+    background:var(--red);
+    color:white;
+    text-decoration:none;
+    padding:11px 15px;
+    border-radius:11px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.star{
+    position:absolute;
+    top:14px;
+    right:14px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    font-size:24px;
+    z-index:5;
+}
+
+/* EMPTY */
+
+.empty{
+    display:none;
+    text-align:center;
+    padding:45px;
+    color:var(--muted);
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:9999;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:430px;
+    background:var(--card);
+    color:var(--text);
+    border-radius:24px;
+    padding:25px;
+}
+
+.modal-box h2{
+    margin-bottom:15px;
+}
+
+.modal-box p{
+    color:var(--muted);
+    line-height:1.6;
+    font-size:14px;
+}
+
+.close{
+    width:100%;
+    margin-top:20px;
+    padding:13px;
+    border:none;
+    border-radius:12px;
+    background:var(--red);
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+footer{
+    text-align:center;
+    margin-top:45px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+@media(max-width:600px){
+
+    header h1{
+        font-size:34px;
+    }
+
+    .quick{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+}
+</style>
 </head>
 
 <body>
 
 <header>
+<div class="header">
 
-    <div class="header-inner">
+    <div class="badge">🩺 P3K DIGITAL</div>
 
-        <div class="badge">
-            🩺 P3K DIGITAL
-        </div>
+    <h1>Direktori P3K</h1>
 
-        <h1>Direktori P3K</h1>
+    <p>
+        Panduan pertolongan pertama yang praktis,
+        sederhana, dan mudah diakses kapan saja.
+    </p>
 
-        <p>
-            Panduan pertolongan pertama yang praktis,
-            sederhana, dan mudah diakses kapan saja.
-        </p>
-
-    </div>
-
+</div>
 </header>
 
 
 <div class="container">
 
-    <!-- SEARCH -->
+<!-- SEARCH -->
 
-    <div class="search-area">
+<div class="search">
 
-        <span style="font-size:20px;padding:12px;">
-            🔎
-        </span>
+    <span style="font-size:20px;padding:12px">🔎</span>
 
-        <input
-            type="text"
-            id="searchInput"
-            placeholder="Cari panduan... contoh: luka"
-        >
-
-        <button
-            class="icon-btn"
-            onclick="toggleDark()"
-            id="themeButton"
-        >
-            🌙
-        </button>
-
-    </div>
-
-
-    <!-- QUICK ACTION -->
-
-    <div class="quick-actions">
-
-        <button
-            class="quick emergency"
-            onclick="openEmergency()"
-        >
-
-            <strong>
-                🚨 Mode Darurat
-            </strong>
-
-            <span>
-                Tampilkan langkah bantuan cepat
-            </span>
-
-        </button>
-
-
-        <button
-            class="quick"
-            onclick="showFavorites()"
-        >
-
-            <strong>
-                ⭐ Favorit Saya
-            </strong>
-
-            <span>
-                Tampilkan panduan yang disimpan
-            </span>
-
-        </button>
-
-    </div>
-
-
-    <!-- STATS -->
-
-    <div class="stats">
-
-        <div class="stat">
-
-            <div
-                class="stat-number"
-                id="totalGuide"
-            >
-                5
-            </div>
-
-            <div class="stat-label">
-                Total Panduan
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div
-                class="stat-number"
-                id="favoriteCount"
-            >
-                0
-            </div>
-
-            <div class="stat-label">
-                Panduan Favorit
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div
-                class="stat-number"
-                id="visitCount"
-            >
-                0
-            </div>
-
-            <div class="stat-label">
-                Panduan Dibuka
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- RECENT -->
-
-    <div
-        class="recent"
-        id="recentBox"
+    <input
+        id="searchInput"
+        type="text"
+        placeholder="Cari panduan... contoh: luka"
     >
 
-        <strong>
-            🕐 Terakhir dibuka
-        </strong>
-
-        <p style="margin-top:8px;">
-
-            <a
-                href="#"
-                id="recentLink"
-            >
-            </a>
-
-        </p>
-
-    </div>
-
-
-    <!-- DIRECTORY -->
-
-    <div class="section-head">
-
-        <h2>
-            📚 Panduan P3K
-        </h2>
-
-        <span id="resultCount">
-            5 panduan
-        </span>
-
-    </div>
-
-
-    <div
-        class="cards"
-        id="cards"
-    >
-
-
-        <!-- LUKA -->
-
-        <div
-            class="card"
-            data-name="luka ringan luka gores"
-        >
-
-            <button
-                class="favorite"
-                onclick="favorite('luka', this)"
-            >
-                ☆
-            </button>
-
-            <div class="card-icon">
-                🩹
-            </div>
-
-            <h3>
-                Luka Ringan
-            </h3>
-
-            <p>
-                Panduan dasar untuk menangani
-                luka ringan.
-            </p>
-
-            <a
-                href="luka.html"
-                class="guide-btn"
-                onclick="opened('Luka Ringan','luka.html')"
-            >
-                Lihat Panduan →
-            </a>
-
-        </div>
-
-
-        <!-- LUKA BAKAR -->
-
-        <div
-            class="card"
-            data-name="luka bakar panas terbakar"
-        >
-
-            <button
-                class="favorite"
-                onclick="favorite('lukabakar', this)"
-            >
-                ☆
-            </button>
-
-            <div class="card-icon">
-                🔥
-            </div>
-
-            <h3>
-                Luka Bakar
-            </h3>
-
-            <p>
-                Panduan pertolongan pertama
-                pada luka bakar.
-            </p>
-
-            <a
-                href="lukabakar.html"
-                class="guide-btn"
-                onclick="opened('Luka Bakar','lukabakar.html')"
-            >
-                Lihat Panduan →
-            </a>
-
-        </div>
-
-
-        <!-- MIMISAN -->
-
-        <div
-            class="card"
-            data-name="mimisan hidung darah"
-        >
-
-            <button
-                class="favorite"
-                onclick="favorite('mimisan', this)"
-            >
-                ☆
-            </button>
-
-            <div class="card-icon">
-                🤧
-            </div>
-
-            <h3>
-                Mimisan
-            </h3>
-
-            <p>
-                Langkah awal untuk membantu
-                saat mengalami mimisan.
-            </p>
-
-            <a
-                href="mimisan.html"
-                class="guide-btn"
-                onclick="opened('Mimisan','mimisan.html')"
-            >
-                Lihat Panduan →
-            </a>
-
-        </div>
-
-
-        <!-- PINGSAN -->
-
-        <div
-            class="card"
-            data-name="pingsan tidak sadar jatuh"
-        >
-
-            <button
-                class="favorite"
-                onclick="favorite('pingsan', this)"
-            >
-                ☆
-            </button>
-
-            <div class="card-icon">
-                😵
-            </div>
-
-            <h3>
-                Pingsan
-            </h3>
-
-            <p>
-                Panduan tindakan awal ketika
-                seseorang mengalami pingsan.
-            </p>
-
-            <a
-                href="pingsan.html"
-                class="guide-btn"
-                onclick="opened('Pingsan','pingsan.html')"
-            >
-                Lihat Panduan →
-            </a>
-
-        </div>
-
-
-        <!-- KESELEO -->
-
-        <div
-            class="card"
-            data-name="keseleo cedera kaki tangan"
-        >
-
-            <button
-                class="favorite"
-                onclick="favorite('keseleo', this)"
-            >
-                ☆
-            </button>
-
-            <div class="card-icon">
-                🦵
-            </div>
-
-            <h3>
-                Keseleo
-            </h3>
-
-            <p>
-                Panduan pertolongan pertama
-                untuk cedera keseleo.
-            </p>
-
-            <a
-                href="keseleo.html"
-                class="guide-btn"
-                onclick="opened('Keseleo','keseleo.html')"
-            >
-                Lihat Panduan →
-            </a>
-
-        </div>
-
-
-    </div>
-
-
-    <div
-        class="empty"
-        id="empty"
-    >
-
-        😭<br><br>
-
-        Panduan yang lu cari belum ditemukan.
-
-    </div>
-
-
-    <footer>
-
-        🩺 Direktori P3K<br>
-        Project TJKT • SMKN 1 Losarang
-
-    </footer>
+    <button
+        class="theme"
+        id="themeButton"
+        type="button"
+    >🌙</button>
 
 </div>
 
 
-<!-- EMERGENCY MODAL -->
+<!-- QUICK -->
+
+<div class="quick">
+
+    <button
+        id="emergencyButton"
+        class="danger"
+        type="button"
+    >
+
+        <strong>🚨 Mode Darurat</strong>
+
+        <span>
+            Bantuan cepat dalam keadaan darurat
+        </span>
+
+    </button>
+
+
+    <button
+        id="favoriteButton"
+        type="button"
+    >
+
+        <strong>⭐ Favorit Saya</strong>
+
+        <span>
+            Lihat panduan yang sudah disimpan
+        </span>
+
+    </button>
+
+</div>
+
+
+<!-- STAT -->
+
+<div class="stats">
+
+    <div class="stat">
+        <div class="number" id="totalGuide">5</div>
+        <div class="label">Total Panduan</div>
+    </div>
+
+    <div class="stat">
+        <div class="number" id="favoriteCount">0</div>
+        <div class="label">Panduan Favorit</div>
+    </div>
+
+    <div class="stat">
+        <div class="number" id="visitCount">0</div>
+        <div class="label">Panduan Dibuka</div>
+    </div>
+
+</div>
+
+
+<!-- RECENT -->
+
+<div class="recent" id="recentBox">
+
+    <strong>🕐 Terakhir dibuka</strong>
+
+    <br><br>
+
+    <a id="recentLink" href="#"></a>
+
+</div>
+
+
+<!-- TITLE -->
+
+<div class="title">
+
+    <h2>📚 Panduan P3K</h2>
+
+    <span id="resultCount">
+        5 panduan
+    </span>
+
+</div>
+
+
+<!-- CARDS -->
+
+<div class="cards" id="cards">
+
+
+    <!-- LUKA -->
+
+    <div
+        class="card"
+        data-name="luka ringan luka gores"
+    >
+
+        <button
+            class="star"
+            data-id="luka"
+            type="button"
+        >☆</button>
+
+        <div class="icon">🩹</div>
+
+        <h3>Luka Ringan</h3>
+
+        <p>
+            Panduan dasar untuk menangani luka ringan.
+        </p>
+
+        <a
+            class="guide"
+            href="luka.html"
+        >
+            Lihat Panduan →
+        </a>
+
+    </div>
+
+
+    <!-- LUKA BAKAR -->
+
+    <div
+        class="card"
+        data-name="luka bakar panas terbakar"
+    >
+
+        <button
+            class="star"
+            data-id="lukabakar"
+            type="button"
+        >☆</button>
+
+        <div class="icon">🔥</div>
+
+        <h3>Luka Bakar</h3>
+
+        <p>
+            Panduan pertolongan pertama pada luka bakar.
+        </p>
+
+        <a
+            class="guide"
+            href="lukabakar.html"
+        >
+            Lihat Panduan →
+        </a>
+
+    </div>
+
+
+    <!-- MIMISAN -->
+
+    <div
+        class="card"
+        data-name="mimisan hidung darah"
+    >
+
+        <button
+            class="star"
+            data-id="mimisan"
+            type="button"
+        >☆</button>
+
+        <div class="icon">🤧</div>
+
+        <h3>Mimisan</h3>
+
+        <p>
+            Langkah awal untuk membantu saat mimisan.
+        </p>
+
+        <a
+            class="guide"
+            href="mimisan.html"
+        >
+            Lihat Panduan →
+        </a>
+
+    </div>
+
+
+    <!-- PINGSAN -->
+
+    <div
+        class="card"
+        data-name="pingsan tidak sadar jatuh"
+    >
+
+        <button
+            class="star"
+            data-id="pingsan"
+            type="button"
+        >☆</button>
+
+        <div class="icon">😵</div>
+
+        <h3>Pingsan</h3>
+
+        <p>
+            Panduan tindakan awal ketika seseorang
+            mengalami pingsan.
+        </p>
+
+        <a
+            class="guide"
+            href="pingsan.html"
+        >
+            Lihat Panduan →
+        </a>
+
+    </div>
+
+
+    <!-- KESELEO -->
+
+    <div
+        class="card"
+        data-name="keseleo cedera kaki tangan"
+    >
+
+        <button
+            class="star"
+            data-id="keseleo"
+            type="button"
+        >☆</button>
+
+        <div class="icon">🦵</div>
+
+        <h3>Keseleo</h3>
+
+        <p>
+            Panduan pertolongan pertama untuk keseleo.
+        </p>
+
+        <a
+            class="guide"
+            href="keseleo.html"
+        >
+            Lihat Panduan →
+        </a>
+
+    </div>
+
+</div>
+
+
+<div class="empty" id="empty">
+
+    😭<br><br>
+    Panduan yang dicari nggak ditemukan.
+
+</div>
+
+
+<footer>
+    🩺 Direktori P3K<br>
+    Project TJKT • SMKN 1 Losarang
+</footer>
+
+</div>
+
+
+<!-- MODAL DARURAT -->
 
 <div
     class="modal"
@@ -814,28 +672,27 @@
 
     <div class="modal-box">
 
-        <h2>
-            🚨 Mode Darurat
-        </h2>
+        <h2>🚨 Mode Darurat</h2>
 
         <p>
-
-            Jika seseorang mengalami kondisi serius,
-            tetap tenang dan segera minta bantuan
-            orang di sekitar atau orang dewasa.
+            Tetap tenang dan pastikan lingkungan
+            sekitar aman.
 
             <br><br>
 
-            • Pastikan lingkungan aman.<br>
-            • Jangan melakukan tindakan yang tidak
-            dipahami atau berisiko memperburuk keadaan.<br>
-            • Cari bantuan medis bila diperlukan.
+            Minta bantuan orang di sekitar atau
+            orang dewasa.
 
+            <br><br>
+
+            Jika kondisi serius, segera cari
+            bantuan medis.
         </p>
 
         <button
-            class="modal-close"
-            onclick="closeEmergency()"
+            class="close"
+            id="closeEmergency"
+            type="button"
         >
             Mengerti
         </button>
@@ -847,11 +704,9 @@
 
 <script>
 
-    /* ==========================
-       SEARCH
-    ========================== */
+document.addEventListener("DOMContentLoaded", function(){
 
-    const search =
+    const searchInput =
         document.getElementById("searchInput");
 
     const cards =
@@ -863,178 +718,406 @@
     const resultCount =
         document.getElementById("resultCount");
 
+    const themeButton =
+        document.getElementById("themeButton");
 
-    search.addEventListener("input", function() {
+    const emergencyButton =
+        document.getElementById("emergencyButton");
 
-        const keyword =
-            this.value.toLowerCase().trim();
+    const favoriteButton =
+        document.getElementById("favoriteButton");
 
-        let found = 0;
+    const emergencyModal =
+        document.getElementById("emergencyModal");
 
-
-        cards.forEach(card => {
-
-            const name =
-                card.dataset.name.toLowerCase();
+    const closeEmergency =
+        document.getElementById("closeEmergency");
 
 
-            if (name.includes(keyword)) {
+    /* =====================
+       DARK MODE
+    ===================== */
 
-                card.style.display = "";
+    if(
+        localStorage.getItem("darkMode")
+        === "true"
+    ){
+        document.body.classList.add("dark");
+        themeButton.textContent = "☀️";
+    }
 
-                found++;
 
-            } else {
+    themeButton.addEventListener(
+        "click",
+        function(){
 
-                card.style.display = "none";
+            document.body.classList.toggle("dark");
 
-            }
+            const dark =
+                document.body.classList.contains("dark");
+
+            localStorage.setItem(
+                "darkMode",
+                dark
+            );
+
+            themeButton.textContent =
+                dark ? "☀️" : "🌙";
+        }
+    );
+
+
+    /* =====================
+       SEARCH
+    ===================== */
+
+    searchInput.addEventListener(
+        "input",
+        function(){
+
+            const keyword =
+                this.value
+                .toLowerCase()
+                .trim();
+
+            let found = 0;
+
+            cards.forEach(function(card){
+
+                const name =
+                    card.dataset.name
+                    .toLowerCase();
+
+                if(
+                    name.includes(keyword)
+                ){
+
+                    card.style.display = "";
+                    found++;
+
+                }else{
+
+                    card.style.display = "none";
+
+                }
+
+            });
+
+
+            resultCount.textContent =
+                found + " panduan";
+
+            empty.style.display =
+                found === 0
+                ? "block"
+                : "none";
+        }
+    );
+
+
+    /* =====================
+       FAVORIT
+    ===================== */
+
+    function getFavorites(){
+
+        return JSON.parse(
+            localStorage.getItem(
+                "favorites"
+            ) || "[]"
+        );
+
+    }
+
+
+    function updateStars(){
+
+        const favorites =
+            getFavorites();
+
+        document
+        .querySelectorAll(".star")
+        .forEach(function(button){
+
+            const id =
+                button.dataset.id;
+
+            button.textContent =
+                favorites.includes(id)
+                ? "★"
+                : "☆";
 
         });
 
-
-        resultCount.textContent =
-            found + " panduan";
+    }
 
 
-        empty.style.display =
-            found === 0
-                ? "block"
-                : "none";
+    document
+    .querySelectorAll(".star")
+    .forEach(function(button){
+
+        button.addEventListener(
+            "click",
+            function(event){
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                let favorites =
+                    getFavorites();
+
+                const id =
+                    button.dataset.id;
+
+                if(
+                    favorites.includes(id)
+                ){
+
+                    favorites =
+                        favorites.filter(
+                            function(item){
+                                return item !== id;
+                            }
+                        );
+
+                }else{
+
+                    favorites.push(id);
+
+                }
+
+                localStorage.setItem(
+                    "favorites",
+                    JSON.stringify(favorites)
+                );
+
+                updateStars();
+                updateStats();
+
+            }
+        );
 
     });
 
 
-    /* ==========================
-       DARK MODE
-    ========================== */
+    /* =====================
+       FAVORIT SAYA
+    ===================== */
 
-    function toggleDark() {
+    favoriteButton.addEventListener(
+        "click",
+        function(){
 
-        document.body.classList.toggle("dark");
+            const favorites =
+                getFavorites();
 
-        const isDark =
-            document.body.classList.contains("dark");
+            if(
+                favorites.length === 0
+            ){
 
-        localStorage.setItem(
-            "darkMode",
-            isDark
-        );
-
-        document.getElementById(
-            "themeButton"
-        ).textContent =
-            isDark ? "☀️" : "🌙";
-
-    }
-
-
-    if (
-        localStorage.getItem("darkMode")
-        === "true"
-    ) {
-
-        document.body.classList.add("dark");
-
-        document.getElementById(
-            "themeButton"
-        ).textContent = "☀️";
-
-    }
-
-
-    /* ==========================
-       FAVORIT
-    ========================== */
-
-    function getFavorites() {
-
-        return JSON.parse(
-            localStorage.getItem("favorites")
-        ) || [];
-
-    }
-
-
-    function favorite(name, button) {
-
-        let favorites =
-            getFavorites();
-
-
-        if (favorites.includes(name)) {
-
-            favorites =
-                favorites.filter(
-                    item => item !== name
+                alert(
+                    "⭐ Belum ada panduan favorit."
                 );
 
-            button.textContent = "☆";
-
-        } else {
-
-            favorites.push(name);
-
-            button.textContent = "★";
-
-        }
+                return;
+            }
 
 
-        localStorage.setItem(
-            "favorites",
-            JSON.stringify(favorites)
-        );
+            let found = 0;
 
 
-        updateStats();
+            cards.forEach(function(card){
 
-    }
+                const star =
+                    card.querySelector(".star");
 
-
-    function updateFavoriteIcons() {
-
-        const favorites =
-            getFavorites();
+                const id =
+                    star.dataset.id;
 
 
-        document
-            .querySelectorAll(".favorite")
-            .forEach(button => {
+                if(
+                    favorites.includes(id)
+                ){
 
-                const functionText =
-                    button.getAttribute("onclick");
+                    card.style.display = "";
+                    found++;
 
-                const match =
-                    functionText.match(
-                        /'([^']+)'/
-                    );
+                }else{
 
+                    card.style.display = "none";
 
-                if (!match) return;
-
-
-                const name =
-                    match[1];
-
-
-                button.textContent =
-                    favorites.includes(name)
-                        ? "★"
-                        : "☆";
+                }
 
             });
 
+
+            resultCount.textContent =
+                found + " favorit";
+
+            empty.style.display = "none";
+
+        }
+    );
+
+
+    /* =====================
+       MODE DARURAT
+    ===================== */
+
+    emergencyButton.addEventListener(
+        "click",
+        function(){
+
+            emergencyModal.classList.add(
+                "active"
+            );
+
+        }
+    );
+
+
+    closeEmergency.addEventListener(
+        "click",
+        function(){
+
+            emergencyModal.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+
+    emergencyModal.addEventListener(
+        "click",
+        function(event){
+
+            if(
+                event.target === emergencyModal
+            ){
+
+                emergencyModal.classList.remove(
+                    "active"
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =====================
+       RIWAYAT
+    ===================== */
+
+    function updateRecent(){
+
+        const name =
+            localStorage.getItem(
+                "recentName"
+            );
+
+        const url =
+            localStorage.getItem(
+                "recentUrl"
+            );
+
+        if(!name || !url) return;
+
+        const box =
+            document.getElementById(
+                "recentBox"
+            );
+
+        const link =
+            document.getElementById(
+                "recentLink"
+            );
+
+        link.textContent =
+            "Buka lagi: " + name;
+
+        link.href = url;
+
+        box.classList.add("show");
     }
 
 
-    /* ==========================
-       SHOW FAVORITES
-    ========================== */
+    document
+    .querySelectorAll(".guide")
+    .forEach(function(link){
 
-    function showFavorites() {
+        link.addEventListener(
+            "click",
+            function(){
+
+                const card =
+                    link.closest(".card");
+
+                const title =
+                    card.querySelector("h3");
+
+                localStorage.setItem(
+                    "recentName",
+                    title.textContent
+                );
+
+                localStorage.setItem(
+                    "recentUrl",
+                    link.getAttribute("href")
+                );
+
+
+                let visits =
+                    Number(
+                        localStorage.getItem(
+                            "visitCount"
+                        ) || 0
+                    );
+
+                visits++;
+
+                localStorage.setItem(
+                    "visitCount",
+                    visits
+                );
+
+            }
+        );
+
+    });
+
+
+    /* =====================
+       STATISTIK
+    ===================== */
+
+    function updateStats(){
 
         const favorites =
             getFavorites();
 
+        document.getElementById(
+            "favoriteCount"
+        ).textContent =
+            favorites.length;
 
-        if (favorites.length === 0) {
+        document.getElementById(
+            "visitCount"
+        ).textContent =
+            localStorage.getItem(
+                "visitCount"
+            ) || "0";
+    }
+
+
+    updateStars();
+    updateStats();
+    updateRecent();
+
+});
+
+</script>
+
+</body>
+</html>
